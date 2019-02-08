@@ -1,9 +1,7 @@
 import pandas as pd
 import xlsxwriter
 
-from chart import LineChart
-from pandex import Sheet, Table
-from pandex import Side
+from pandex import Sheet, Table, Side, LineChart
 
 
 class ForecastTable(Table):

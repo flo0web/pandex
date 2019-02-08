@@ -5,7 +5,7 @@ import numpy as np
 import pandas as pd
 
 from pandex import Sheet, Table
-from sheet import Side
+from pandex.sheet import Side
 
 
 class GroupTestCase(TestCase):

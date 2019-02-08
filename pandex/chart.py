@@ -1,7 +1,7 @@
 from enum import Enum
 
 from pandex import Table
-from sheet import Cursor
+from pandex.sheet import Cursor
 
 CHART_AREA_PATTERN = {
     'pattern': 'light_downward_diagonal',
