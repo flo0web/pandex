@@ -145,10 +145,12 @@ class LineChart:
 
     def write(self, workbook, worksheet, cursor: Cursor):
         worksheet_name = worksheet.get_name()
-        chart_data = self._get_chart_data(worksheet_name)
 
         chart = workbook.add_chart({'type': 'line'})
-        chart.add_series(chart_data['series'])
+
+        chart_data = self._get_chart_data(worksheet_name)
+        for series in chart_data:
+            chart.add_series(series)
 
         chart.set_title({'name': self._name})
         chart.set_legend({'position': 'top'})
@@ -171,10 +173,8 @@ class LineChart:
         data = self._table.data
         data_mapping = data.cell_mapping
 
-        return {
-            'series': [{
-                'name': [sheet_name] + index_mapping[-1][row],
-                'categories': [sheet_name] + header_mapping[-1][0] + header_mapping[-1][-1],
-                'values': [sheet_name] + data_mapping[row][0] + data_mapping[row][-1],
-            } for row in self._target_rows]
-        }
+        return [{
+            'name': [sheet_name] + index_mapping[-1][row],
+            'categories': [sheet_name] + header_mapping[-1][0] + header_mapping[-1][-1],
+            'values': [sheet_name] + data_mapping[row][0] + data_mapping[row][-1],
+        } for row in self._target_rows]
