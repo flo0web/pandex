@@ -164,12 +164,16 @@ class LineChart:
         header = self._table.header
         header_mapping = header.cell_mapping
 
+        index = self._table.index
+        index_mapping = index.cell_mapping
+
         data = self._table.data
         data_mapping = data.cell_mapping
 
         return {
             'name': self._name,
             'series': {
+                'name': [sheet_name] + index_mapping[-1][self._target_row],
                 'categories': [sheet_name] + header_mapping[-1][0] + header_mapping[-1][-1],
                 'values': [sheet_name] + data_mapping[self._target_row][0] + data_mapping[self._target_row][-1],
             }

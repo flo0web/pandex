@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="pandex",
-    version="0.1.1",
+    version="0.1.2",
     author="Alexandr A.",
     author_email="flo0.webmaster@gmail.com",
     description="Package for mapping pandas tables to excel and building charts",
