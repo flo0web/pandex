@@ -1,4 +1,5 @@
 from enum import Enum
+from typing import List
 
 from pandex import Table
 from pandex.sheet import Cursor
@@ -136,11 +137,11 @@ class ColumnChart:
 
 
 class LineChart:
-    def __init__(self, name: str, table: Table, target_row: int = 0):
+    def __init__(self, name: str, table: Table, target_rows: List[int]):
         self._name = name
 
         self._table = table
-        self._target_row = target_row
+        self._target_rows = target_rows
 
     def write(self, workbook, worksheet, cursor: Cursor):
         worksheet_name = worksheet.get_name()
@@ -149,7 +150,7 @@ class LineChart:
         chart = workbook.add_chart({'type': 'line'})
         chart.add_series(chart_data['series'])
 
-        chart.set_title({'name': chart_data['name']})
+        chart.set_title({'name': self._name})
         chart.set_legend({'position': 'top'})
         chart.set_chartarea({
             'pattern': CHART_AREA_PATTERN
@@ -171,10 +172,9 @@ class LineChart:
         data_mapping = data.cell_mapping
 
         return {
-            'name': self._name,
-            'series': {
-                'name': [sheet_name] + index_mapping[-1][self._target_row],
+            'series': [{
+                'name': [sheet_name] + index_mapping[-1][row],
                 'categories': [sheet_name] + header_mapping[-1][0] + header_mapping[-1][-1],
-                'values': [sheet_name] + data_mapping[self._target_row][0] + data_mapping[self._target_row][-1],
-            }
+                'values': [sheet_name] + data_mapping[row][0] + data_mapping[row][-1],
+            } for row in self._target_rows]
         }
