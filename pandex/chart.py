@@ -137,11 +137,12 @@ class ColumnChart:
 
 
 class LineChart:
-    def __init__(self, name: str, table: Table, target_rows: List[int]):
+    def __init__(self, name: str, table: Table, target_rows: List[int], skip_columns: int = 0):
         self._name = name
 
         self._table = table
         self._target_rows = target_rows
+        self._skip_columns = skip_columns
 
     def write(self, workbook, worksheet, cursor: Cursor):
         worksheet_name = worksheet.get_name()
@@ -175,6 +176,6 @@ class LineChart:
 
         return [{
             'name': [sheet_name] + index_mapping[-1][row],
-            'categories': [sheet_name] + header_mapping[-1][0] + header_mapping[-1][-1],
-            'values': [sheet_name] + data_mapping[row][0] + data_mapping[row][-1],
+            'categories': [sheet_name] + header_mapping[-1][0 + self._skip_columns] + header_mapping[-1][-1],
+            'values': [sheet_name] + data_mapping[row][0 + self._skip_columns] + data_mapping[row][-1],
         } for row in self._target_rows]
